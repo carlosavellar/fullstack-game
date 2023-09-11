@@ -14,8 +14,10 @@ import {
   PageContainer,
   StartBattleButton,
 } from './BattleOfMonsters.styled';
+import { Monster } from '../../models/interfaces/monster.interface';
 
 const BattleOfMonsters = () => {
+  const [computerMonster, setComputerMonster] = useState<{}>();
   const dispatch = useAppDispatch();
 
   const monsters = useSelector(selectMonsters);
@@ -24,6 +26,23 @@ const BattleOfMonsters = () => {
   useEffect(() => {
     dispatch(fetchMonstersData());
   }, []);
+
+  const handleMonsterComputer = () => {
+    debugger;
+    let monsterComputer = {};
+    monsters.some((monster) => {
+      if (selectedMonster?.id !== monster.id) {
+        monsterComputer = {
+          title: monster.name,
+          attack: monster.attack,
+          defense: monster.defense,
+          hp: monster.hp,
+          speed: monster.speed,
+        };
+      }
+    });
+    setComputerMonster(monsterComputer);
+  };
 
   const handleStartBattleClick = () => {
     // Fight!
@@ -45,7 +64,10 @@ const BattleOfMonsters = () => {
         <StartBattleButton
           data-testid="start-battle-button"
           disabled={selectedMonster === null}
-          onClick={handleStartBattleClick}>
+          onClick={() => {
+            handleStartBattleClick();
+            handleMonsterComputer();
+          }}>
           Start Battle
         </StartBattleButton>
         <MonsterBattleCard
@@ -60,3 +82,6 @@ const BattleOfMonsters = () => {
 };
 
 export { BattleOfMonsters };
+function useState<T>() {
+  throw new Error('Function not implemented.');
+}

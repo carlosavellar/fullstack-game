@@ -24,10 +24,12 @@ const MonsterBattleCard: React.FC<MonsterCardProps> = ({
     <BattleMonsterCard centralized>
       <BattleMonsterTitle>
         {title!}
-        <div>{attack!}</div>
-        <div>{defense!}</div>
-        <div>{hp!}</div>
-        <div>{speed!}</div>
+        <br />
+        <span>{attack!}</span>
+        <br />
+        <span>{hp!}</span>
+        <br />
+        <span>{speed!}</span>
       </BattleMonsterTitle>
     </BattleMonsterCard>
   );
