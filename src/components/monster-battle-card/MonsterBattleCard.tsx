@@ -30,6 +30,10 @@ const MonsterBattleCard: React.FC<MonsterCardProps> = ({
         <span>{hp!}</span>
         <br />
         <span>{speed!}</span>
+        <br />
+        <span>{hp!}</span>
+        <br />
+        <span>{speed!}</span>
       </BattleMonsterTitle>
     </BattleMonsterCard>
   );

@@ -37,7 +37,9 @@ const MonstersList: React.FC<MonstersListProps> = ({ monsters }) => {
         {monsters.map((monster) => (
           <MonsterCard
             key={monster.id}
-            onClick={() => handleMonsterClick(monster)}
+            onClick={() => {
+              handleMonsterClick(monster);
+            }}
             selected={monster.id === selectedMonsterId}
             data-testid={monster.id}>
             <Image src={monster.imageUrl} />

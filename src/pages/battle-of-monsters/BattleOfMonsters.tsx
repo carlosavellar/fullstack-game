@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../app/hooks';
 import { MonsterBattleCard } from '../../components/monster-battle-card/MonsterBattleCard';
@@ -17,7 +17,9 @@ import {
 import { Monster } from '../../models/interfaces/monster.interface';
 
 const BattleOfMonsters = () => {
-  const [computerMonster, setComputerMonster] = useState<{}>();
+  const [computerMonster, setComputerMonster] = useState<Monster | undefined>();
+  const [playerNewMonster, setPlayerNewMonster] = useState<Monster>();
+
   const dispatch = useAppDispatch();
 
   const monsters = useSelector(selectMonsters);
@@ -27,26 +29,42 @@ const BattleOfMonsters = () => {
     dispatch(fetchMonstersData());
   }, []);
 
-  const handleMonsterComputer = () => {
+  const handleMonsterComputer = useCallback(() => {
     debugger;
-    let monsterComputer = {};
+    let monsterComputer: Monster | undefined = {
+      id: '',
+      name: '',
+      attack: 0,
+      defense: 0,
+      hp: 0,
+      speed: 0,
+      type: '',
+      imageUrl: '',
+    };
     monsters.some((monster) => {
-      if (selectedMonster?.id !== monster.id) {
+      if (
+        selectedMonster?.id !== monster.id &&
+        computerMonster?.id !== selectedMonster?.id
+      ) {
         monsterComputer = {
-          title: monster.name,
-          attack: monster.attack,
-          defense: monster.defense,
-          hp: monster.hp,
-          speed: monster.speed,
+          ...monster,
         };
       }
     });
     setComputerMonster(monsterComputer);
-  };
+  }, []);
 
   const handleStartBattleClick = () => {
     // Fight!
   };
+
+  useEffect(() => {
+    console.log(selectedMonster);
+    if (selectedMonster !== null) {
+      console.log('selected');
+      handleMonsterComputer();
+    }
+  }, [selectedMonster, handleMonsterComputer]);
 
   return (
     <PageContainer>
@@ -66,22 +84,18 @@ const BattleOfMonsters = () => {
           disabled={selectedMonster === null}
           onClick={() => {
             handleStartBattleClick();
-            handleMonsterComputer();
           }}>
           Start Battle
         </StartBattleButton>
         <MonsterBattleCard
-          title="Computer"
-          attack={0}
-          defense={0}
-          hp={0}
-          speed={0}></MonsterBattleCard>
+          title={computerMonster?.name || 'Computer'}
+          attack={computerMonster?.attack || 0}
+          defense={computerMonster?.defense || 0}
+          hp={computerMonster?.hp || 0}
+          speed={computerMonster?.speed || 0}></MonsterBattleCard>
       </BattleSection>
     </PageContainer>
   );
 };
 
 export { BattleOfMonsters };
-function useState<T>() {
-  throw new Error('Function not implemented.');
-}
