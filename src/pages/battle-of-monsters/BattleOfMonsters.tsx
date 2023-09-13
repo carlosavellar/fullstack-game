@@ -30,6 +30,7 @@ const BattleOfMonsters = () => {
   }, []);
 
   const handleMonsterComputer =()=> {
+
     let monsterComputer: Monster | undefined = {
       id: '',
       name: '',
@@ -40,18 +41,11 @@ const BattleOfMonsters = () => {
       type: '',
       imageUrl: '',
     };
-    monsters.some((monster) => {
-      if (
-        selectedMonster?.id !== monster.id &&
-        computerMonster?.id !== selectedMonster?.id
-      ) {
-        monsterComputer = {
-          ...monster,
-        };
-      }
+    monsterComputer = monsters.find((monster) => {
+      return monster.id !== selectedMonster?.id 
     });
     console.log(monsterComputer);
-    // setComputerMonster(monsterComputer);
+    setComputerMonster(monsterComputer);
   };
 
   const handleStartBattleClick = () => {
