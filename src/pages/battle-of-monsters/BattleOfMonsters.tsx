@@ -29,8 +29,7 @@ const BattleOfMonsters = () => {
     dispatch(fetchMonstersData());
   }, []);
 
-  const handleMonsterComputer = useCallback(() => {
-    debugger;
+  const handleMonsterComputer =()=> {
     let monsterComputer: Monster | undefined = {
       id: '',
       name: '',
@@ -51,20 +50,21 @@ const BattleOfMonsters = () => {
         };
       }
     });
-    setComputerMonster(monsterComputer);
-  }, []);
+    console.log(monsterComputer);
+    // setComputerMonster(monsterComputer);
+  };
 
   const handleStartBattleClick = () => {
     // Fight!
   };
 
   useEffect(() => {
-    console.log(selectedMonster);
+  
     if (selectedMonster !== null) {
       console.log('selected');
       handleMonsterComputer();
     }
-  }, [selectedMonster, handleMonsterComputer]);
+  }, [selectedMonster]);
 
   return (
     <PageContainer>
