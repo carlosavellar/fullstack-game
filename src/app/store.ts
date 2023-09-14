@@ -4,7 +4,6 @@ import { monstersReducer } from '../reducers/monsters/monsters.reducer';
 export const store = configureStore({
   reducer: {
     monsters: monstersReducer,
-    monsters: monstersReducer,
   },
 });
 

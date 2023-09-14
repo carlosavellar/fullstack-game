@@ -1,10 +1,10 @@
 export interface Monster {
-  id: string;
-  name: string;
-  attack: number;
-  defense: number;
-  hp: number;
-  speed: number;
-  type: string;
-  imageUrl: string;
+  id: string | undefined;
+  name: string | undefined
+  attack: number | undefined
+  defense: number | undefined
+  hp: number | undefined;
+  speed: number | undefined;
+  type: string|  undefined
+  imageUrl: string | undefined;
 }

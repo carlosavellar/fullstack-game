@@ -23,7 +23,7 @@ const MonstersList: React.FC<MonstersListProps> = ({ monsters }) => {
 
   const handleMonsterClick = (monster: Monster) => {
     const value = selectedMonsterId === monster.id ? null : monster.id;
-    setSelectedMonsterId(value);
+    setSelectedMonsterId(value || null);
     dispatch(setSelectedMonster(!value ? null : monster));
   };
 

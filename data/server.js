@@ -14,10 +14,12 @@ server.use((req, res, next) => {
 });
 
 server.get('/monsters', (req, res) => {
+  alert(req)
   res.jsonp(data.monsters);
 });
 
 server.post('/battle', (req, res) => {
+  debugger;
   const { monster1Id, monster2Id } = req.body;
 
   if (!monster1Id || !monster2Id) {

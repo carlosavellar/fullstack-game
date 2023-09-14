@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
+import axios from "axios";
+
 import { useSelector } from 'react-redux';
 import { useAppDispatch } from '../../app/hooks';
 import { MonsterBattleCard } from '../../components/monster-battle-card/MonsterBattleCard';
@@ -17,8 +19,20 @@ import {
 import { Monster } from '../../models/interfaces/monster.interface';
 
 const BattleOfMonsters = () => {
-  const [computerMonster, setComputerMonster] = useState<Monster | undefined>();
-  const [playerNewMonster, setPlayerNewMonster] = useState<Monster>();
+  const [computerMonster, setComputerMonster] = useState<Monster | undefined>({
+    id: '' || undefined,
+    name: '',
+    attack: 0,
+    defense: 0,
+    hp: 0,
+    speed: 0,
+    type: '',
+    imageUrl: '',
+  });
+  const [monsterBatle, setMonsterBattle] = useState<object>({
+    monster1Id: "",
+    monster2Id: ""
+  });
 
   const dispatch = useAppDispatch();
 
@@ -32,28 +46,41 @@ const BattleOfMonsters = () => {
   const handleMonsterComputer =()=> {
 
     let monsterComputer: Monster | undefined = {
-      id: '',
-      name: '',
-      attack: 0,
-      defense: 0,
-      hp: 0,
-      speed: 0,
-      type: '',
-      imageUrl: '',
+      id: computerMonster?.id || undefined,
+      name: computerMonster?.name || undefined,
+      attack:computerMonster?.attack || undefined,
+      defense:computerMonster?.defense || undefined,
+      hp:computerMonster?.hp || undefined,
+      speed:computerMonster?.speed || undefined,
+      type: computerMonster?.type || undefined,
+      imageUrl: computerMonster?.imageUrl || undefined,
     };
     monsterComputer = monsters.find((monster) => {
-      return monster.id !== selectedMonster?.id 
+      let currentMonsterComputer = monsterComputer
+      if(monster.id !== selectedMonster?.id){
+        currentMonsterComputer = monster
+      } 
+      if(monster?.id !== monsterComputer?.id){
+        currentMonsterComputer = monster
+      }
+      if(monsterComputer?.id !== currentMonsterComputer?.id){
+        setComputerMonster(currentMonsterComputer);
+      } 
     });
-    console.log(monsterComputer);
-    setComputerMonster(monsterComputer);
   };
 
   const handleStartBattleClick = () => {
     // Fight!
+     axios.post('http://localhost:3001/battle', {monster1Id: selectedMonster?.id, monster2Id: computerMonster?.id})
+    .then(response=>{
+      alert(response.data.winner.name)
+    })
+    .catch(error=>{
+      console.log(error)
+    })
   };
 
   useEffect(() => {
-  
     if (selectedMonster !== null) {
       console.log('selected');
       handleMonsterComputer();
